@@ -6,6 +6,7 @@ export interface User {
   email: string
   title: string
   organiziton: string
+  token: string
 }
 
 interface Props {

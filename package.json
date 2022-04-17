@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@craco/craco": "^6.4.3",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.1.1",
     "@testing-library/user-event": "^13.5.0",
@@ -10,6 +11,7 @@
     "@types/node": "^16.11.27",
     "@types/react": "^18.0.5",
     "@types/react-dom": "^18.0.1",
+    "babel-plugin-import": "^1.13.5",
     "jira-dev-tool": "^1.7.61",
     "qs": "^6.10.3",
     "react": "^18.0.0",
@@ -19,7 +21,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "craco start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
@@ -46,11 +48,13 @@
   },
   "devDependencies": {
     "@types/qs": "^6.9.7",
+    "customize-cra": "^1.0.0",
     "eslint-config-prettier": "^8.5.0",
     "husky": "^7.0.4",
     "json-server": "^0.17.0",
     "lint-staged": "^12.3.8",
-    "prettier": "2.6.2"
+    "prettier": "2.6.2",
+    "react-app-rewired": "^2.2.1"
   },
   "husky": {
     "hooks": {

@@ -11,10 +11,10 @@ export const LoginScreen = () => {
   }
 
   const login = (param: { username: string; password: string }) => {
-    fetch(`${apiUrl}/login`, {
+    fetch(`${apiUrl}/register`, {
       method: "POST",
       headers: {
-        ContentType: "applicaiton/json",
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(param),
     }).then(async (response) => {
@@ -34,7 +34,7 @@ export const LoginScreen = () => {
         <label htmlFor="password">密码</label>
         <input type="password" id={"password"} />
       </div>
-      <button type="submit">登录</button>
+      <button type="submit">注册</button>
     </form>
   )
 }
