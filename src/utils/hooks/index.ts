@@ -7,8 +7,8 @@ export const useMount = (callback: () => void) => {
   }, [])
 }
 
-export const useDebounce = (value: any, delay: number = 200) => {
-  const [debouncedValue, setDebouncedValue] = useState(value)
+export const useDebounce = <T>(value: T, delay: number = 300): T => {
+  const [debouncedValue, setDebouncedValue] = useState<T>(value)
   useEffect(() => {
     // 每次在 value 变化之后，设置一个定时器
     const timeout = setTimeout(() => {
