@@ -7,10 +7,11 @@ const localStoragekey = "__auth_provider_token__"
 export const getToken = () => window.localStorage.getItem(localStoragekey)
 export const handleUserResponse = ({ user }: { user: User }) => {
   window.localStorage.setItem(localStoragekey, user.token || "")
+  return user
 }
 
 export const login = (data: { username: string; password: string }) => {
-  fetch(`${apiUrl}/login`, {
+  return fetch(`${apiUrl}/login`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -19,12 +20,14 @@ export const login = (data: { username: string; password: string }) => {
   }).then(async (response) => {
     if (response.ok) {
       return handleUserResponse(await response.json())
+    } else {
+      return Promise.reject(data)
     }
   })
 }
 
 export const register = (data: { username: string; password: string }) => {
-  fetch(`${apiUrl}/register`, {
+  return fetch(`${apiUrl}/register`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -33,10 +36,12 @@ export const register = (data: { username: string; password: string }) => {
   }).then(async (response) => {
     if (response.ok) {
       return handleUserResponse(await response.json())
+    } else {
+      return Promise.reject(data)
     }
   })
 }
 
-export const logout = () => {
+export const logout = async () => {
   window.localStorage.removeItem(localStoragekey)
 }

@@ -1,13 +1,13 @@
+import { AuthenticatedApp } from "authenticated-app"
+import { useAuth } from "context/auth-context"
+import { UnAuthenticatedApp } from "screens/unauthenticated-app"
 import "./App.css"
-// import "antd/dist/antd.min.css"
-// import { ProjectListScreen } from "screens/project-list";
-import { LoginScreen } from "screens/login"
 
 function App() {
+  const { user } = useAuth()
   return (
     <div className="App">
-      {/* <ProjectListScreen /> */}
-      <LoginScreen />
+      {user ? <AuthenticatedApp /> : <UnAuthenticatedApp />}
     </div>
   )
 }
