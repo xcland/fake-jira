@@ -1,6 +1,5 @@
-import { SearchPanel } from "./search-panel"
-import { List } from "./list"
-import { UserType } from "./types"
+import { SearchPanel, User } from "./search-panel"
+import { List, ProjectType } from "./list"
 import { useEffect, useState } from "react"
 import { cleanObject } from "utils"
 import qs from "qs"
@@ -14,7 +13,7 @@ export type ParamType = {
 }
 
 export const ProjectListScreen: React.FC = () => {
-  const [users, setUsers] = useState<Array<UserType>>([])
+  const [users, setUsers] = useState<Array<User>>([])
 
   const [param, setParam] = useState<ParamType>({
     name: "",
@@ -23,7 +22,7 @@ export const ProjectListScreen: React.FC = () => {
 
   const debouncedParam = useDebounce(param, 400)
 
-  const [list, setList] = useState<Array<any>>([])
+  const [list, setList] = useState<Array<ProjectType>>([])
 
   useEffect(() => {
     fetch(

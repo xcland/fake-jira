@@ -1,11 +1,16 @@
-import { UserType } from "./types";
+import { User } from "./search-panel"
 
-interface Props {
-  list: Array<any>;
+export interface ProjectType {
+  id: string
+  name: string
+  personId: string
+  pin: boolean
+  organization: string
 }
 
 interface Props {
-  users: Array<UserType>;
+  list: Array<ProjectType>
+  users: Array<User>
 }
 
 export const List: React.FC<Props> = ({ list, users }) => {
@@ -31,5 +36,5 @@ export const List: React.FC<Props> = ({ list, users }) => {
         </tbody>
       </table>
     </>
-  );
-};
+  )
+}

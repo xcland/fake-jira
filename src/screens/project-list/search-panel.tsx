@@ -1,9 +1,17 @@
-import { ParamType } from "./index";
-import { UserType } from "./types";
+import { ParamType } from "./index"
+
+export interface User {
+  id: string
+  name: string
+  email: string
+  title: string
+  organiziton: string
+}
+
 interface Props {
-  param: ParamType;
-  setParam: React.Dispatch<React.SetStateAction<ParamType>>;
-  users: Array<UserType>;
+  param: ParamType
+  setParam: React.Dispatch<React.SetStateAction<ParamType>>
+  users: Array<User>
 }
 
 export const SearchPanel: React.FC<Props> = ({ users, param, setParam }) => {
@@ -17,8 +25,8 @@ export const SearchPanel: React.FC<Props> = ({ users, param, setParam }) => {
             setParam({
               ...param,
               name: evt.target.value,
-            });
-            console.log(evt.target.value);
+            })
+            console.log(evt.target.value)
           }}
         />
         <select
@@ -39,5 +47,5 @@ export const SearchPanel: React.FC<Props> = ({ users, param, setParam }) => {
         </select>
       </div>
     </form>
-  );
-};
+  )
+}

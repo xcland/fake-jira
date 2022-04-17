@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react"
 
-export const useMount = (callback: any) => {
+export const useMount = (callback: () => void) => {
   useEffect(() => {
     callback()
   }, [])
