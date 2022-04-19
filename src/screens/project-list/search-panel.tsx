@@ -1,4 +1,5 @@
-import { Input, Select } from "antd"
+import React from "react"
+import { Form, Input, Select } from "antd"
 import { ParamType } from "./index"
 
 export interface User {
@@ -18,9 +19,15 @@ interface Props {
 
 export const SearchPanel: React.FC<Props> = ({ users, param, setParam }) => {
   return (
-    <form>
-      <div>
+    <Form
+      style={{
+        marginBottom: "2rem",
+      }}
+      layout="inline"
+    >
+      <Form.Item>
         <Input
+          placeholder="项目名"
           type="text"
           value={param.name}
           onChange={(evt) => {
@@ -31,6 +38,8 @@ export const SearchPanel: React.FC<Props> = ({ users, param, setParam }) => {
             console.log(evt.target.value)
           }}
         />
+      </Form.Item>
+      <Form.Item>
         <Select
           value={param.personId}
           onChange={(value) =>
@@ -47,7 +56,7 @@ export const SearchPanel: React.FC<Props> = ({ users, param, setParam }) => {
             </Select.Option>
           ))}
         </Select>
-      </div>
-    </form>
+      </Form.Item>
+    </Form>
   )
 }

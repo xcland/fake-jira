@@ -1,3 +1,4 @@
+import React from "react"
 import { AuthenticatedApp } from "authenticated-app"
 import { useAuth } from "context/auth-context"
 import { UnAuthenticatedApp } from "screens/unauthenticated-app"
