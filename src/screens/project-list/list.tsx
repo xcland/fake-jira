@@ -1,6 +1,6 @@
 import React from "react"
 import { User } from "./search-panel"
-import { Table } from "antd"
+import { Table, TableProps } from "antd"
 import dayjs from "dayjs"
 
 export interface ProjectType {
@@ -12,17 +12,18 @@ export interface ProjectType {
   created: number
 }
 
-interface Props {
-  list: Array<ProjectType>
+interface Props extends TableProps<ProjectType> {
   users: Array<User>
 }
 
-export const List: React.FC<Props> = ({ list, users }) => {
+// type PropType = Omit<Props, 'users'>
+
+export const List: React.FC<Props> = ({ users, ...props }) => {
   return (
     <>
       <Table
         pagination={false}
-        dataSource={list}
+        // dataSource={list}
         rowKey={"id"}
         columns={[
           {
@@ -60,6 +61,7 @@ export const List: React.FC<Props> = ({ list, users }) => {
             },
           },
         ]}
+        {...props}
       ></Table>
     </>
   )
