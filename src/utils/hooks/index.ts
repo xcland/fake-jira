@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 export const useMount = (callback: () => void) => {
   useEffect(() => {
     callback()
+    // TODO 依赖加上 callback 会导致无限循环，与 useCallback 和 useMemo 有关
   }, [])
 }
 

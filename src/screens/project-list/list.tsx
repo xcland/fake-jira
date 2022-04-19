@@ -23,6 +23,7 @@ export const List: React.FC<Props> = ({ list, users }) => {
       <Table
         pagination={false}
         dataSource={list}
+        rowKey={"id"}
         columns={[
           {
             title: "名称",
