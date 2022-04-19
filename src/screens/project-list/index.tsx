@@ -3,7 +3,7 @@ import React from "react"
 import { SearchPanel } from "./search-panel"
 import { List } from "./list"
 import { useState } from "react"
-import { useDebounce } from "utils/hooks"
+import { useDebounce, useDocumentTitle } from "utils/hooks"
 import styled from "@emotion/styled"
 import { Typography } from "antd"
 import { useProjects } from "../../utils/hooks/project"
@@ -19,6 +19,8 @@ export const ProjectListScreen: React.FC = () => {
     name: "",
     personId: "",
   })
+
+  useDocumentTitle("项目列表", false)
 
   const debouncedParam = useDebounce(param, 400)
   const { isLoading, error, data: list } = useProjects(debouncedParam)
