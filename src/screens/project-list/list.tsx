@@ -2,7 +2,9 @@ import React from "react"
 import { User } from "./search-panel"
 import { Table, TableProps } from "antd"
 import dayjs from "dayjs"
+import { Link } from "react-router-dom"
 
+// ID Should be number
 export interface ProjectType {
   id: string
   name: string
@@ -28,9 +30,11 @@ export const List: React.FC<Props> = ({ users, ...props }) => {
         columns={[
           {
             title: "名称",
-            dataIndex: "name",
             sorter: (a, b) => {
               return a.name.localeCompare(b.name)
+            },
+            render(value, project) {
+              return <Link to={`${project.id}`}>{project.name}</Link>
             },
           },
           {
