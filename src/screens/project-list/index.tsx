@@ -25,7 +25,12 @@ export const ProjectListScreen: React.FC = () => {
   const [param, setParam] = useProjectsSearchParams()
 
   useDocumentTitle("项目列表", false)
-  const { isLoading, error, data: list } = useProjects(useDebounce(param, 200))
+  const {
+    isLoading,
+    error,
+    data: list,
+    retry,
+  } = useProjects(useDebounce(param, 200))
 
   const { data: users } = useUsers()
 
@@ -36,7 +41,12 @@ export const ProjectListScreen: React.FC = () => {
       {error ? (
         <Typography.Text type="danger">{error.message}</Typography.Text>
       ) : null}
-      <List loading={isLoading} dataSource={list || []} users={users || []} />
+      <List
+        refresh={retry}
+        loading={isLoading}
+        dataSource={list || []}
+        users={users || []}
+      />
     </Container>
   )
 }

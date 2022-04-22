@@ -25,12 +25,16 @@ export const useAsync = <D>(
     ...defaultInitialState,
     ...initialState,
   })
+
+  const [retry, setRetry] = useState(() => () => {})
+
   const setData = (data: D) =>
     setState({
       data,
       stat: "success",
       error: null,
     })
+
   const setError = (error: Error) =>
     setState({
       error,
@@ -38,11 +42,17 @@ export const useAsync = <D>(
       data: null,
     })
   // 用于触发异步请求
-  const run = (promise: Promise<D>) => {
+  const run = (
+    promise: Promise<D>,
+    runConfig?: { retry: () => Promise<D> }
+  ) => {
     if (!promise || !promise.then) {
       throw new Error("please pass a Promise!")
     }
     setState({ ...state, stat: "loading" })
+    setRetry(() => () => {
+      if (runConfig?.retry) run(runConfig?.retry(), runConfig)
+    })
     return promise
       .then((data) => {
         setData(data)
@@ -57,6 +67,7 @@ export const useAsync = <D>(
         return err
       })
   }
+
   return {
     isIdle: state.stat === "idle",
     isLoading: state.stat === "loading",
@@ -66,5 +77,6 @@ export const useAsync = <D>(
     setData,
     setError,
     ...state,
+    retry,
   }
 }

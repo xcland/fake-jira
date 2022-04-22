@@ -3,6 +3,8 @@ import { User } from "./search-panel"
 import { Table, TableProps } from "antd"
 import dayjs from "dayjs"
 import { Link } from "react-router-dom"
+import { Pin } from "components/pin"
+import { useEditProject } from "../../utils/hooks/project"
 
 // ID Should be number
 export interface ProjectType {
@@ -16,11 +18,18 @@ export interface ProjectType {
 
 interface Props extends TableProps<ProjectType> {
   users: Array<User>
+  refresh?: () => void
 }
 
 // type PropType = Omit<Props, 'users'>
 
 export const List: React.FC<Props> = ({ users, ...props }) => {
+  const { mutate } = useEditProject()
+  const pinProject = (id: number) => (pin: boolean) =>
+    mutate({
+      id,
+      pin,
+    }).then(props.refresh)
   return (
     <>
       <Table
@@ -28,6 +37,17 @@ export const List: React.FC<Props> = ({ users, ...props }) => {
         // dataSource={list}
         rowKey={"id"}
         columns={[
+          {
+            title: <Pin checked={true} disabled={true} />,
+            render(value, project) {
+              return (
+                <Pin
+                  checked={project.pin}
+                  onCheckedChange={pinProject(project.id)}
+                ></Pin>
+              )
+            },
+          },
           {
             title: "名称",
             sorter: (a, b) => {

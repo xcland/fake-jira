@@ -7,10 +7,46 @@ import { cleanObject } from "../index"
 export const useProjects = (param?: Partial<ProjectType>) => {
   const client = useHttp()
   const { run, ...results } = useAsync<ProjectType[]>()
+  const fetchProjects = () =>
+    client("projects", { data: cleanObject(param || {}) })
 
   useEffect(() => {
-    run(client("projects", { data: cleanObject(param || {}) })).then()
+    run(fetchProjects(), { retry: fetchProjects }).then()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [param])
   return results
+}
+
+export const useEditProject = () => {
+  const { run, ...asyncResults } = useAsync()
+  const client = useHttp()
+  const mutate = (params: Partial<ProjectType>) => {
+    return run(
+      client(`projects/${params.id}`, {
+        data: params,
+        method: "PATCH",
+      })
+    )
+  }
+  return {
+    mutate,
+    ...asyncResults,
+  }
+}
+
+export const useAddProject = () => {
+  const { run, ...asyncResults } = useAsync()
+  const client = useHttp()
+  const mutate = (params: Partial<ProjectType>) => {
+    run(
+      client(`projects/${params.id}`, {
+        data: params,
+        method: "POST",
+      })
+    )
+  }
+  return {
+    mutate,
+    ...asyncResults,
+  }
 }
