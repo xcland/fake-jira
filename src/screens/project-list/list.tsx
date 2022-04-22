@@ -6,9 +6,9 @@ import { Link } from "react-router-dom"
 
 // ID Should be number
 export interface ProjectType {
-  id: string
+  id: number
   name: string
-  personId: string
+  personId: number
   pin: boolean
   organization: string
   created: number

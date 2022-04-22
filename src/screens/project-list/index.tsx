@@ -8,7 +8,7 @@ import styled from "@emotion/styled"
 import { Typography } from "antd"
 import { useProjects } from "../../utils/hooks/project"
 import { useUsers } from "../../utils/hooks/user"
-import { useUrlQueryParam } from "utils/hooks/url"
+import { useProjectsSearchParams } from "./util"
 
 export type ParamType = {
   name: string
@@ -22,12 +22,10 @@ export const ProjectListScreen: React.FC = () => {
   // })
   // const [keys] = useState<("name" | "personId")[]>(["name", "personId"])
   // 基本类型和组件状态可以放到依赖里，非组件状态的对象绝不可以放到依赖里，这样会导致无限渲染
-  const [param, setParam] = useUrlQueryParam(["name", "personId"])
+  const [param, setParam] = useProjectsSearchParams()
 
   useDocumentTitle("项目列表", false)
-
-  const debouncedParam = useDebounce(param, 400)
-  const { isLoading, error, data: list } = useProjects(debouncedParam)
+  const { isLoading, error, data: list } = useProjects(useDebounce(param, 200))
 
   const { data: users } = useUsers()
 
