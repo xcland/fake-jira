@@ -13,7 +13,12 @@ export interface User {
 
 interface Props {
   param: ParamType
-  setParam: React.Dispatch<React.SetStateAction<ParamType>>
+  setParam: (
+    params: Partial<{
+      name: unknown
+      personId: unknown
+    }>
+  ) => void
   users: Array<User>
 }
 
@@ -51,7 +56,7 @@ export const SearchPanel: React.FC<Props> = ({ users, param, setParam }) => {
         >
           <Select.Option value={""}>负责人</Select.Option>
           {users.map((user) => (
-            <Select.Option key={`user-${user.id}`} value={user.id}>
+            <Select.Option key={`user-${user.id}`} value={String(user.id)}>
               {user.name}
             </Select.Option>
           ))}
