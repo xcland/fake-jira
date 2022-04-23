@@ -20,16 +20,12 @@ export interface ProjectType {
 interface Props extends TableProps<ProjectType> {
   users: Array<User>
   refresh?: () => void
-  setProjectModalOpen: (isOpen: boolean) => void
+  ProjectButton: JSX.Element
 }
 
 // type PropType = Omit<Props, 'users'>
 
-export const List: React.FC<Props> = ({
-  users,
-  setProjectModalOpen,
-  ...props
-}) => {
+export const List: React.FC<Props> = ({ users, ProjectButton, ...props }) => {
   const { mutate } = useEditProject()
   const pinProject = (id: number) => (pin: boolean) =>
     mutate({
@@ -96,14 +92,7 @@ export const List: React.FC<Props> = ({
                 <Dropdown
                   overlay={
                     <Menu>
-                      <Menu.Item key={"edit"}>
-                        <ButtonNoPadding
-                          type="link"
-                          onClick={() => setProjectModalOpen(true)}
-                        >
-                          编辑
-                        </ButtonNoPadding>
-                      </Menu.Item>
+                      <Menu.Item key={"edit"}>{ProjectButton}</Menu.Item>
                     </Menu>
                   }
                 >

@@ -5,7 +5,7 @@ import { List } from "./list"
 // import { useState } from "react"
 import { useDebounce, useDocumentTitle } from "utils/hooks"
 import styled from "@emotion/styled"
-import { Button, Typography } from "antd"
+import { Typography } from "antd"
 import { useProjects } from "../../utils/hooks/project"
 import { useUsers } from "../../utils/hooks/user"
 import { useProjectsSearchParams } from "./util"
@@ -17,11 +17,11 @@ export type ParamType = {
 }
 
 interface ProjectListScreenProps {
-  setProjectModalOpen: (isOpen: boolean) => void
+  ProjectButton: JSX.Element
 }
 
 export const ProjectListScreen: React.FC<ProjectListScreenProps> = ({
-  setProjectModalOpen,
+  ProjectButton,
 }) => {
   // const [, setParam] = useState<ParamType>({
   //   name: "",
@@ -45,7 +45,7 @@ export const ProjectListScreen: React.FC<ProjectListScreenProps> = ({
     <Container>
       <Row between={true}>
         <h1>项目列表</h1>
-        <Button onClick={() => setProjectModalOpen(true)}>创建项目</Button>
+        {ProjectButton}
       </Row>
 
       <SearchPanel param={param} setParam={setParam} users={users || []} />
@@ -57,7 +57,7 @@ export const ProjectListScreen: React.FC<ProjectListScreenProps> = ({
         loading={isLoading}
         dataSource={list || []}
         users={users || []}
-        setProjectModalOpen={setProjectModalOpen}
+        ProjectButton={ProjectButton}
       />
     </Container>
   )
