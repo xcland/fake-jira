@@ -5,17 +5,24 @@ import { List } from "./list"
 // import { useState } from "react"
 import { useDebounce, useDocumentTitle } from "utils/hooks"
 import styled from "@emotion/styled"
-import { Typography } from "antd"
+import { Button, Typography } from "antd"
 import { useProjects } from "../../utils/hooks/project"
 import { useUsers } from "../../utils/hooks/user"
 import { useProjectsSearchParams } from "./util"
+import { Row } from "components/lib"
 
 export type ParamType = {
   name: string
   personId: string
 }
 
-export const ProjectListScreen: React.FC = () => {
+interface ProjectListScreenProps {
+  setProjectModalOpen: (isOpen: boolean) => void
+}
+
+export const ProjectListScreen: React.FC<ProjectListScreenProps> = ({
+  setProjectModalOpen,
+}) => {
   // const [, setParam] = useState<ParamType>({
   //   name: "",
   //   personId: "",
@@ -36,7 +43,11 @@ export const ProjectListScreen: React.FC = () => {
 
   return (
     <Container>
-      <h1>项目列表</h1>
+      <Row between={true}>
+        <h1>项目列表</h1>
+        <Button onClick={() => setProjectModalOpen(true)}>创建项目</Button>
+      </Row>
+
       <SearchPanel param={param} setParam={setParam} users={users || []} />
       {error ? (
         <Typography.Text type="danger">{error.message}</Typography.Text>
@@ -46,6 +57,7 @@ export const ProjectListScreen: React.FC = () => {
         loading={isLoading}
         dataSource={list || []}
         users={users || []}
+        setProjectModalOpen={setProjectModalOpen}
       />
     </Container>
   )

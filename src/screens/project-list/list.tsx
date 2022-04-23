@@ -1,10 +1,11 @@
 import React from "react"
 import { User } from "./search-panel"
-import { Table, TableProps } from "antd"
+import { Dropdown, Menu, Table, TableProps } from "antd"
 import dayjs from "dayjs"
 import { Link } from "react-router-dom"
 import { Pin } from "components/pin"
 import { useEditProject } from "../../utils/hooks/project"
+import { ButtonNoPadding } from "components/lib"
 
 // ID Should be number
 export interface ProjectType {
@@ -19,11 +20,16 @@ export interface ProjectType {
 interface Props extends TableProps<ProjectType> {
   users: Array<User>
   refresh?: () => void
+  setProjectModalOpen: (isOpen: boolean) => void
 }
 
 // type PropType = Omit<Props, 'users'>
 
-export const List: React.FC<Props> = ({ users, ...props }) => {
+export const List: React.FC<Props> = ({
+  users,
+  setProjectModalOpen,
+  ...props
+}) => {
   const { mutate } = useEditProject()
   const pinProject = (id: number) => (pin: boolean) =>
     mutate({
@@ -81,6 +87,28 @@ export const List: React.FC<Props> = ({ users, ...props }) => {
                     ? dayjs(project.created).format("YYYY-MM-DD")
                     : "无"}
                 </span>
+              )
+            },
+          },
+          {
+            render(value, project) {
+              return (
+                <Dropdown
+                  overlay={
+                    <Menu>
+                      <Menu.Item key={"edit"}>
+                        <ButtonNoPadding
+                          type="link"
+                          onClick={() => setProjectModalOpen(true)}
+                        >
+                          编辑
+                        </ButtonNoPadding>
+                      </Menu.Item>
+                    </Menu>
+                  }
+                >
+                  <ButtonNoPadding type="link">...</ButtonNoPadding>
+                </Dropdown>
               )
             },
           },

@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react"
-import { useMountedRef } from "."
+import { useMountedRef } from "./index"
 
 interface State<D> {
   error: Error | null
