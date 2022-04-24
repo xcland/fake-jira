@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useState } from "react"
+import React from "react"
 import { useAuth } from "context/auth-context"
 import { ProjectListScreen } from "screens/project-list"
 import { ProjectScreen } from "screens/project"
@@ -14,48 +14,31 @@ import { ProjectModal } from "screens/project-list/project-modal"
 import { ProjectPopover } from "components/project-popover"
 
 export const AuthenticatedApp: React.FC = () => {
-  const [projectModalOpen, setProjectModalOpen] = useState(false)
-  const ProjectButton = (
-    <ButtonNoPadding
-      onClick={() => {
-        setProjectModalOpen(true)
-      }}
-      type={"link"}
-    >
-      创建项目
-    </ButtonNoPadding>
-  )
   return (
     <Container>
-      <PageHeader ProjectButton={ProjectButton} />
-      <Main>
-        <Router>
+      <Router>
+        <PageHeader />
+        <Main>
           <Routes>
-            <Route
-              path="/projects"
-              element={<ProjectListScreen ProjectButton={ProjectButton} />}
-            />
+            <Route path="/projects" element={<ProjectListScreen />} />
             <Route path="/projects/:projectId/*" element={<ProjectScreen />} />
             <Route path="*" element={<Navigate to={"/projects"} />} />
           </Routes>
-        </Router>
-      </Main>
-      <ProjectModal
-        projectModalOpen={projectModalOpen}
-        onClose={() => setProjectModalOpen(false)}
-      />
+        </Main>
+        <ProjectModal />
+      </Router>
     </Container>
   )
 }
 
-const PageHeader = ({ ProjectButton }: { ProjectButton: JSX.Element }) => {
+const PageHeader = () => {
   return (
     <Header between={true}>
       <HeaderLeft gap={true}>
         <ButtonNoPadding type={"link"} onClick={resetRoute}>
           <SoftwareLogo width={"18rem"} color={"rgb(38, 132, 255)"} />
         </ButtonNoPadding>
-        <ProjectPopover ProjectButton={ProjectButton} />
+        <ProjectPopover />
         <span>用户</span>
       </HeaderLeft>
       <HeaderRight>

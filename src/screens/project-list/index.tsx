@@ -8,21 +8,17 @@ import styled from "@emotion/styled"
 import { Typography } from "antd"
 import { useProjects } from "../../utils/hooks/project"
 import { useUsers } from "../../utils/hooks/user"
-import { useProjectsSearchParams } from "./util"
-import { Row } from "components/lib"
+import { useProjectModal, useProjectsSearchParams } from "./util"
+import { ButtonNoPadding, Row } from "components/lib"
 
 export type ParamType = {
   name: string
   personId: string
 }
 
-interface ProjectListScreenProps {
-  ProjectButton: JSX.Element
-}
+interface ProjectListScreenProps {}
 
-export const ProjectListScreen: React.FC<ProjectListScreenProps> = ({
-  ProjectButton,
-}) => {
+export const ProjectListScreen: React.FC<ProjectListScreenProps> = () => {
   // const [, setParam] = useState<ParamType>({
   //   name: "",
   //   personId: "",
@@ -39,13 +35,16 @@ export const ProjectListScreen: React.FC<ProjectListScreenProps> = ({
     retry,
   } = useProjects(useDebounce(param, 200))
 
+  const { open } = useProjectModal()
   const { data: users } = useUsers()
 
   return (
     <Container>
       <Row between={true}>
         <h1>项目列表</h1>
-        {ProjectButton}
+        <ButtonNoPadding type="link" onClick={open}>
+          创建项目
+        </ButtonNoPadding>
       </Row>
 
       <SearchPanel param={param} setParam={setParam} users={users || []} />
@@ -57,7 +56,6 @@ export const ProjectListScreen: React.FC<ProjectListScreenProps> = ({
         loading={isLoading}
         dataSource={list || []}
         users={users || []}
-        ProjectButton={ProjectButton}
       />
     </Container>
   )
