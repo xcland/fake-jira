@@ -1,54 +1,56 @@
-import { useCallback, useEffect } from "react"
-import { useAsync } from "./useAsync"
+// import { useCallback, useEffect } from "react"
 import { ProjectType } from "../../screens/project-list/list"
 import { useHttp } from "../http"
-import { cleanObject } from "../index"
+// import { cleanObject } from "../index"
+import { useMutation, useQuery, useQueryClient } from "react-query"
 
 export const useProjects = (param?: Partial<ProjectType>) => {
   const client = useHttp()
-  const { run, ...results } = useAsync<ProjectType[]>()
-  const fetchProjects = useCallback(
-    () => client("projects", { data: cleanObject(param || {}) }),
-    [param, client]
-  )
-
-  useEffect(() => {
-    run(fetchProjects(), { retry: fetchProjects }).then()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [param])
-  return results
+  return useQuery<ProjectType[]>(["projects", param], async () => {
+    let result = await client("projects", { data: param })
+    return result
+  })
 }
 
 export const useEditProject = () => {
-  const { run, ...asyncResults } = useAsync()
   const client = useHttp()
-  const mutate = (params: Partial<ProjectType>) => {
-    return run(
-      client(`projects/${params.id}`, {
-        data: params,
+  const queryClient = useQueryClient()
+  return useMutation(
+    (params: Partial<ProjectType>) => {
+      return client(`projects/${params.id}`, {
         method: "PATCH",
+        data: params,
       })
-    )
-  }
-  return {
-    mutate,
-    ...asyncResults,
-  }
+    },
+    {
+      onSuccess: () => queryClient.invalidateQueries("projects"),
+    }
+  )
 }
 
 export const useAddProject = () => {
-  const { run, ...asyncResults } = useAsync()
   const client = useHttp()
-  const mutate = (params: Partial<ProjectType>) => {
-    run(
-      client(`projects/${params.id}`, {
+  const queryClient = useQueryClient()
+  return useMutation(
+    (params: Partial<ProjectType>) => {
+      return client(`projects`, {
         data: params,
         method: "POST",
       })
-    )
-  }
-  return {
-    mutate,
-    ...asyncResults,
-  }
+    },
+    {
+      onSuccess: () => queryClient.invalidateQueries("projects"),
+    }
+  )
+}
+
+export const useProject = (id?: number) => {
+  const client = useHttp()
+  return useQuery<ProjectType>(
+    ["project", { id }],
+    () => client(`projects/${id}`),
+    {
+      enabled: Boolean(id),
+    }
+  )
 }

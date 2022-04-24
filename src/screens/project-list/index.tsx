@@ -5,11 +5,10 @@ import { List } from "./list"
 // import { useState } from "react"
 import { useDebounce, useDocumentTitle } from "utils/hooks"
 import styled from "@emotion/styled"
-import { Typography } from "antd"
 import { useProjects } from "../../utils/hooks/project"
 import { useUsers } from "../../utils/hooks/user"
 import { useProjectModal, useProjectsSearchParams } from "./util"
-import { ButtonNoPadding, Row } from "components/lib"
+import { ButtonNoPadding, ErrorBox, Row } from "components/lib"
 
 export type ParamType = {
   name: string
@@ -28,12 +27,7 @@ export const ProjectListScreen: React.FC<ProjectListScreenProps> = () => {
   const [param, setParam] = useProjectsSearchParams()
 
   useDocumentTitle("项目列表", false)
-  const {
-    isLoading,
-    error,
-    data: list,
-    retry,
-  } = useProjects(useDebounce(param, 200))
+  const { isLoading, error, data: list } = useProjects(useDebounce(param, 200))
 
   const { open } = useProjectModal()
   const { data: users } = useUsers()
@@ -48,15 +42,8 @@ export const ProjectListScreen: React.FC<ProjectListScreenProps> = () => {
       </Row>
 
       <SearchPanel param={param} setParam={setParam} users={users || []} />
-      {error ? (
-        <Typography.Text type="danger">{error.message}</Typography.Text>
-      ) : null}
-      <List
-        refresh={retry}
-        loading={isLoading}
-        dataSource={list || []}
-        users={users || []}
-      />
+      {error ? <ErrorBox error={error} /> : null}
+      <List loading={isLoading} dataSource={list || []} users={users || []} />
     </Container>
   )
 }

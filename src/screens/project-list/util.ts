@@ -1,4 +1,6 @@
 import { useMemo } from "react"
+import { useSearchParams } from "react-router-dom"
+import { useProject } from "utils/hooks/project"
 import { useUrlQueryParam } from "utils/hooks/url"
 
 export const useProjectsSearchParams = () => {
@@ -20,8 +22,33 @@ export const useProjectModal = () => {
     "projectCreate",
   ])
 
-  const open = () => setProjectCreate({ projectCreate: true })
-  const close = () => setProjectCreate({ projectCreate: undefined })
+  const [{ editingProjectId }, setEditingProjectId] = useUrlQueryParam([
+    "editingProjectId",
+  ])
 
-  return { projectModalOpen: projectCreate === "true", open, close }
+  const { data: editingProject, isLoading } = useProject(
+    Number(editingProjectId)
+  )
+
+  const [, setUrlParams] = useSearchParams()
+
+  const open = () => setProjectCreate({ projectCreate: true })
+  // 无法正常刷新 这是为什么呢
+  // const close = () => {
+  //   setProjectCreate({ projectCreate: undefined })
+  //   setEditingProjectId({ editingProjectId: undefined })
+  // }
+  const close = () => setUrlParams({ projectCreate: "", editingProjectId: "" })
+  const startEdit = (id: number) =>
+    setEditingProjectId({ editingProjectId: id })
+
+  return {
+    projectModalOpen: projectCreate === "true" || Boolean(editingProjectId),
+    // projectModalOpen: projectCreate === "true",
+    open,
+    close,
+    startEdit,
+    editingProject,
+    isLoading,
+  }
 }

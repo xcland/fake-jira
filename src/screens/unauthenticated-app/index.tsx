@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react"
-import { Card, Divider, Button, Typography } from "antd"
+import { Card, Divider, Button } from "antd"
 import { useState } from "react"
 import styled from "@emotion/styled"
 import { LoginScreen } from "./login"
@@ -8,6 +8,7 @@ import { RegisterScreen } from "./register"
 import logo from "assets/logo.svg"
 import left from "assets/left.svg"
 import right from "assets/right.svg"
+import { ErrorBox } from "components/lib"
 
 export const UnAuthenticatedApp = () => {
   const [isRegister, setIsRegister] = useState(false)
@@ -19,9 +20,7 @@ export const UnAuthenticatedApp = () => {
       <Background />
       <ShadowCard>
         <Title>{isRegister ? "请注册" : "请登录"}</Title>
-        {error ? (
-          <Typography.Text type={"danger"}>{error.message}</Typography.Text>
-        ) : undefined}
+        {error ? <ErrorBox error={error} /> : undefined}
         {isRegister ? (
           <RegisterScreen onError={setError} />
         ) : (

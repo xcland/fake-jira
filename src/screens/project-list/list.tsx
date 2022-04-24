@@ -27,12 +27,13 @@ interface Props extends TableProps<ProjectType> {
 
 export const List: React.FC<Props> = ({ users, ...props }) => {
   const { mutate } = useEditProject()
+  const { startEdit } = useProjectModal()
   const pinProject = (id: number) => (pin: boolean) =>
     mutate({
       id,
       pin,
-    }).then(props.refresh)
-  const { open } = useProjectModal()
+    })
+  const editProject = (id: number) => () => startEdit(id)
   return (
     <>
       <Table
@@ -94,9 +95,15 @@ export const List: React.FC<Props> = ({ users, ...props }) => {
                   overlay={
                     <Menu>
                       <Menu.Item key={"edit"}>
-                        <ButtonNoPadding type="link" onClick={open}>
+                        <ButtonNoPadding
+                          type="link"
+                          onClick={editProject(project.id)}
+                        >
                           编辑
                         </ButtonNoPadding>
+                      </Menu.Item>
+                      <Menu.Item key={"delete"}>
+                        <ButtonNoPadding type="link">删除</ButtonNoPadding>
                       </Menu.Item>
                     </Menu>
                   }
