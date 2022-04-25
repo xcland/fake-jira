@@ -5,7 +5,7 @@ import { ErrorBox } from "components/lib"
 import { UserSelect } from "components/user-select"
 import React, { useEffect } from "react"
 import { useAddProject, useEditProject } from "utils/hooks/project"
-import { useProjectModal } from "./util"
+import { useProjectModal, useProjectQuerykey } from "./util"
 
 interface Props {}
 
@@ -14,7 +14,11 @@ export const ProjectModal: React.FC<Props> = () => {
     useProjectModal()
   const useMutateProject = editingProject ? useEditProject : useAddProject
 
-  const { mutateAsync, error, isLoading: mutateLoading } = useMutateProject()
+  const {
+    mutateAsync,
+    error,
+    isLoading: mutateLoading,
+  } = useMutateProject(useProjectQuerykey())
   const [form] = useForm()
   const onFinish = (values: any) => {
     mutateAsync({ ...editingProject, ...values }).then(() => {
