@@ -1,7 +1,6 @@
 import { useMemo } from "react"
-import { useSearchParams } from "react-router-dom"
 import { useProject } from "utils/hooks/project"
-import { useUrlQueryParam } from "utils/hooks/url"
+import { useSetUrlSearchParam, useUrlQueryParam } from "utils/hooks/url"
 
 export const useProjectsSearchParams = () => {
   const [param, setParam] = useUrlQueryParam(["name", "personId"])
@@ -36,7 +35,7 @@ export const useProjectModal = () => {
     Number(editingProjectId)
   )
 
-  const [, setUrlParams] = useSearchParams()
+  const setUrlSearchParam = useSetUrlSearchParam()
 
   const open = () => setProjectCreate({ projectCreate: true })
   // 无法正常刷新 这是为什么呢
@@ -44,7 +43,8 @@ export const useProjectModal = () => {
   //   setProjectCreate({ projectCreate: undefined })
   //   setEditingProjectId({ editingProjectId: undefined })
   // }
-  const close = () => setUrlParams({ projectCreate: "", editingProjectId: "" })
+  const close = () =>
+    setUrlSearchParam({ projectCreate: undefined, editingProjectId: undefined })
   const startEdit = (id: number) =>
     setEditingProjectId({ editingProjectId: id })
 
