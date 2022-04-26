@@ -1,7 +1,7 @@
 import { useHttp } from "../http"
 import { QueryKey, useMutation, useQuery } from "react-query"
 import { Task } from "../../types/task"
-import { useAddConfig } from "./use-optimisitc-options"
+import { useAddConfig, useEditConfig } from "./use-optimisitc-options"
 
 export const useTasks = (param?: Partial<Task>) => {
   const client = useHttp()
@@ -21,4 +21,25 @@ export const useAddTask = (queryKey: QueryKey) => {
       }),
     useAddConfig(queryKey)
   )
+}
+
+export function useTask(taskId: number) {
+  const client = useHttp()
+  return useQuery<Task>(
+    ["project", { taskId }],
+    () => client(`tasks/${taskId}`),
+    {
+      enabled: Boolean(taskId),
+    }
+  )
+}
+
+export const useEditTask = (queryKey: QueryKey) => {
+  const client = useHttp()
+  return useMutation((params: Partial<Task>) => {
+    return client(`tasks/${params.id}`, {
+      method: "PATCH",
+      data: params,
+    })
+  }, useEditConfig(queryKey))
 }
