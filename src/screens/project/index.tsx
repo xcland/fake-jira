@@ -51,14 +51,13 @@ const Aside = styled.aside`
 `
 
 const Main = styled.div`
-  display: flex;
   box-shadow: -5px 0 5px -5px rgba(0, 0, 0, 0.1);
-  ::-webkit-scrollbar {
-    display: none;
-  }
+  display: flex;
+  overflow: hidden;
 `
 
 const Container = styled.div`
   display: grid;
   grid-template-columns: 16rem 1fr;
+  width: 100%;
 `

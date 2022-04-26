@@ -8,6 +8,7 @@ import bugIcon from "!file-loader!assets/bug.svg"
 import { useTaskTypes } from "../../utils/hooks/task-type"
 import styled from "@emotion/styled"
 import { Card } from "antd"
+import { CreateTask } from "./create-task"
 
 const TaskTypeIcon = ({ id }: { id: number }) => {
   const { data: taskTypes } = useTaskTypes()
@@ -23,6 +24,7 @@ interface KanbanColumnProps {
 export const KanbanColumn: React.FC<KanbanColumnProps> = ({ kanban }) => {
   const { data: allTasks } = useTasks(useTasksSearchParams())
   const tasks = allTasks?.filter((task) => task.kanbanId === kanban.id)
+  // console.log(tasks)
   return (
     <Container>
       <h3>{kanban.name}</h3>
@@ -33,12 +35,13 @@ export const KanbanColumn: React.FC<KanbanColumnProps> = ({ kanban }) => {
             <TaskTypeIcon id={task.typeId} />
           </Card>
         ))}
+        <CreateTask kanbanId={kanban.id} />
       </TasksContainer>
     </Container>
   )
 }
 
-const Container = styled.div`
+export const Container = styled.div`
   min-width: 27rem;
   border-radius: 6px;
   background-color: rgb(244, 245, 247);
@@ -47,9 +50,11 @@ const Container = styled.div`
   padding: 0.7rem 0.7rem 1rem;
   margin-right: 1.5rem;
 `
+
 const TasksContainer = styled.div`
   overflow: scroll;
   flex: 1;
+
   ::-webkit-scrollbar {
     display: none;
   }
