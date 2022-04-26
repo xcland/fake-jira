@@ -2,15 +2,7 @@ import React from "react"
 import { Form, Input } from "antd"
 import { ProjectType } from "./list"
 import { UserSelect } from "components/user-select"
-
-export interface User {
-  id: number
-  name: string
-  email: string
-  title: string
-  organiziton: string
-  token: string
-}
+import { User } from "../../types/user"
 
 interface Props {
   param: Partial<Pick<ProjectType, "name" | "personId">>
@@ -23,7 +15,7 @@ interface Props {
   users: Array<User>
 }
 
-export const SearchPanel: React.FC<Props> = ({ users, param, setParam }) => {
+export const SearchPanel: React.FC<Props> = ({ param, setParam }) => {
   return (
     <Form
       style={{

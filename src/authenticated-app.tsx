@@ -9,7 +9,7 @@ import { ReactComponent as SoftwareLogo } from "assets/software-logo.svg"
 import { Menu, Dropdown, Button } from "antd"
 import { Route, Routes, Navigate } from "react-router"
 import { BrowserRouter as Router } from "react-router-dom"
-import { resetRoute } from "utils/index"
+import { resetRoute } from "./utils"
 import { ProjectModal } from "screens/project-list/project-modal"
 import { ProjectPopover } from "components/project-popover"
 
@@ -89,4 +89,6 @@ const HeaderRight = styled.div``
 
 const Main = styled.main`
   height: calc(100vh - 6rem);
+  display: flex;
+  overflow: hidden;
 `

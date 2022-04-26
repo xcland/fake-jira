@@ -1,8 +1,8 @@
-import type { User } from "../../screens/project-list/search-panel"
 import { useHttp } from "../http"
 import { useAsync } from "./useAsync"
 import { useEffect } from "react"
 import { cleanObject } from "../index"
+import { User } from "../../types/user"
 
 export const useUsers = (param?: Partial<User>) => {
   const client = useHttp()

@@ -1,5 +1,4 @@
 // import { useCallback, useEffect } from "react"
-import { ProjectType } from "../../screens/project-list/list"
 import { useHttp } from "../http"
 // import { cleanObject } from "../index"
 import { QueryKey, useMutation, useQuery } from "react-query"
@@ -8,12 +7,12 @@ import {
   useDeleteConfig,
   useEditConfig,
 } from "./use-optimisitc-options"
+import { ProjectType } from "../../types/project"
 
 export const useProjects = (param?: Partial<ProjectType>) => {
   const client = useHttp()
   return useQuery<ProjectType[]>(["projects", param], async () => {
-    let result = await client("projects", { data: param })
-    return result
+    return await client("projects", { data: param })
   })
 }
 

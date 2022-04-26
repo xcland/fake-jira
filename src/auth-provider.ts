@@ -1,5 +1,5 @@
 // 在真实环境中，使用第三方 auth 服务，本文件不需要开发
-import { User } from "screens/project-list/search-panel"
+import { User } from "./types/user"
 const apiUrl = process.env.REACT_APP_API_URL
 
 const localStoragekey = "__auth_provider_token__"
