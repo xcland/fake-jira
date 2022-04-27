@@ -5,6 +5,7 @@ import {
   useAddConfig,
   useDeleteConfig,
   useEditConfig,
+  useReorderTaskConfig,
 } from "./use-optimisitc-options"
 
 export const useTasks = (param?: Partial<Task>) => {
@@ -55,4 +56,22 @@ export function useDeleteTask(queryKey: QueryKey) {
       method: "DELETE",
     })
   }, useDeleteConfig(queryKey))
+}
+
+interface SortProps {
+  fromId: number
+  referenceId: number
+  type: "before" | "after"
+  fromKanbanId?: number
+  toKanbanId?: number
+}
+
+export const useReorderTask = (queryKey: QueryKey) => {
+  const client = useHttp()
+  return useMutation((params: SortProps) => {
+    return client("tasks/reorder", {
+      data: params,
+      method: "POST",
+    })
+  }, useReorderTaskConfig(queryKey))
 }
