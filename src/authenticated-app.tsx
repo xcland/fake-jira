@@ -14,7 +14,7 @@ import { ProjectModal } from "screens/project-list/project-modal"
 import { ProjectPopover } from "components/project-popover"
 import { UserPopover } from "components/user-popover"
 
-export const AuthenticatedApp: React.FC = () => {
+const AuthenticatedApp: React.FC = () => {
   return (
     <Container>
       <Router>
@@ -93,3 +93,5 @@ const Main = styled.main`
   display: flex;
   overflow: hidden;
 `
+
+export default AuthenticatedApp

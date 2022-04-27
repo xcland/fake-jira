@@ -10,7 +10,7 @@ import left from "assets/left.svg"
 import right from "assets/right.svg"
 import { ErrorBox } from "components/lib"
 
-export const UnAuthenticatedApp = () => {
+const UnAuthenticatedApp = () => {
   const [isRegister, setIsRegister] = useState(false)
   const [error, setError] = useState<Error | null>(null)
 
@@ -80,3 +80,5 @@ const Container = styled.div`
   align-items: center;
   min-height: 100vh;
 `
+
+export default UnAuthenticatedApp
